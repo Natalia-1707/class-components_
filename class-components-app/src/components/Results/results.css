@@ -1,0 +1,64 @@
+@import url('https://fonts.googleapis.com/css2?family=Exo+2:wght@300;400;600&family=Orbitron:wght@400;600&display=swap');
+
+.results-section {
+    width: 90%;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+}
+
+h2 {
+  width: 90%;
+  height: auto;
+  font-family: 'Exo 2', sans-serif;
+  color: #ffffff;
+  font-size: 1.7rem;
+}
+
+.results-wrapper {
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border: 1px solid #FF9F1C;
+    border-radius: 5px;
+}
+
+.results-header {
+    width: 100%;
+    height: auto;
+    display: flex;
+    align-items: center;
+}
+
+.results-header div {
+    width: 50%;
+    height: 70px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0.3rem;
+    font-family: 'Exo 2', sans-serif;
+    color: #ffffff;
+    font-size: 1.2rem;
+    border-bottom: 1px solid #FF9F1C;
+}
+
+.results-header div:first-child {
+    border-right: 1px solid #FF9F1C;
+}
+
+.results-list {
+    width: 100%;
+    height: 200px;
+    display: flex;
+}
+
+.results-section button {
+    align-self: flex-end;
+    margin-top: 1rem;
+}

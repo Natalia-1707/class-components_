@@ -28,34 +28,70 @@ h2 {
     border-radius: 5px;
 }
 
-.results-header {
+.results-header,
+.results-list {
     width: 100%;
     height: auto;
     display: flex;
     align-items: center;
 }
 
-.results-header div {
-    width: 50%;
-    height: 70px;
+.results-list {
+    flex-direction: column;
+}
+
+.results-header div,
+.result-item {
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 0.3rem;
     font-family: 'Exo 2', sans-serif;
-    color: #ffffff;
     font-size: 1.2rem;
+}
+
+.result-item {
+    width: 100%;
+    position: relative;
+    min-height: 70px;
+    color: #ffffff;
+}
+
+.result-item::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 95%;
+    height: 1px;
+    background-color: #FF9F1C;
+}
+
+.result-item:last-child::after {
+    display: none;
+}
+
+.result-item div {
+    width: 100%;
+    height: auto;
+    display: flex;
+    padding: 0.3rem;
+    justify-content: center;
+    align-items: center;
+    white-space: normal;
+    overflow-wrap: anywhere;
+}
+
+.results-header div {
+    width: 50%;
+    height: 70px;
+    padding: 0.3rem;
+    color: #FF9F1C;
     border-bottom: 1px solid #FF9F1C;
 }
 
 .results-header div:first-child {
     border-right: 1px solid #FF9F1C;
-}
-
-.results-list {
-    width: 100%;
-    height: 200px;
-    display: flex;
 }
 
 .results-section button {

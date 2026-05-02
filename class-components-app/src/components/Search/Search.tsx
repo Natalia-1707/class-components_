@@ -1,11 +1,12 @@
 import "./search.css";
 import React from 'react';
+import type { Props } from "../../api/types";
 
 type State = {
   searchValue: string;
 };
 
-class SearchSection extends React.Component <{}, State> {
+class SearchSection extends React.Component <Props, State> {
     state: State = {
     searchValue: '',
   };
@@ -24,14 +25,22 @@ class SearchSection extends React.Component <{}, State> {
     localStorage.setItem("search", value);
   };
 
+  handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+
+    const trimmed = this.state.searchValue.trim();
+
+    this.props.onSearch(trimmed);
+  };
+
   render() {
     return (
       <section className="search-section">
-          <form>
+          <form onSubmit={this.handleSubmit}>
               <label htmlFor="search"></label>
               <input type="text" id="search"className="input" value={this.state.searchValue} onChange={this.handleChange}/>
+              <button type="submit">Search</button>
           </form>
-          <button>Search</button>
       </section>
     )
   }

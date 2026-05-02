@@ -1,7 +1,7 @@
 import "./results.css";
 import React from 'react';
 import CardList from "./CardList";
-import type { Item} from "../../api/types";
+import type { Item } from "../../api/types";
 import { fetchCharactersApi } from "../../api/characters";
 
 type ResultsState = {
@@ -17,8 +17,13 @@ class ResultsSection extends React.Component<{}, ResultsState> {
     const savedSearch = localStorage.getItem("search") || "";
     this.fetchCharacters(savedSearch);
   }
+
+  private lastSearch = "";
   
   fetchCharacters = async (name: string) => {
+    if (name.trim() === this.lastSearch) return;
+    this.lastSearch = name.trim();
+
     try {
       const items = await fetchCharactersApi(name, 0);
 

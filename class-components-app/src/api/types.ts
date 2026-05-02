@@ -22,3 +22,7 @@ export type Character = {
 export type CharactersResponse = {
   characters?: Character[];
 };
+
+export type Props = {
+  onSearch: (value: string) => void;
+};

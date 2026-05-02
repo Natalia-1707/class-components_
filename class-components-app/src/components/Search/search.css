@@ -3,14 +3,18 @@
 .search-section {
     width: 90%;
     height: auto;
+}
+
+.search-section,
+form  {
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 2rem;
 }
 
 form {
     width: 70%;
+    gap: 2rem;
 }
 
 input {

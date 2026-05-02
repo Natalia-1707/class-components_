@@ -7,12 +7,14 @@ import { fetchCharactersApi } from "../../api/characters";
 type ResultsState = {
   items: Item[];
   loading: boolean;
+  error: string | null;
 };
 
 class ResultsSection extends React.Component<{}, ResultsState> {
   state: ResultsState = {
     items: [],
     loading: false,
+    error: null,
   };
 
   componentDidMount() {
@@ -31,11 +33,17 @@ class ResultsSection extends React.Component<{}, ResultsState> {
     try {
       const items = await fetchCharactersApi(name, 0);
 
-      if (items) {
-        this.setState({ items });
+      if (!items) {
+        this.setState({ error: "No data received from server" });
+        return;
       }
+
+      this.setState({ items });
+
     } catch (err) {
-      console.error(err);
+      this.setState({
+        error: "Something went wrong :(\nPlease try again later.",
+      });
     } finally {
       this.setState({ loading: false });
     }
@@ -52,6 +60,8 @@ class ResultsSection extends React.Component<{}, ResultsState> {
                 </div>
                 {this.state.loading ? (
                   <div className="loading-div">Loading...</div>
+                ) : this.state.error ? (
+                  <div className="error-div">{this.state.error}</div>
                 ) : (
                   <CardList items={this.state.items} />
                 )}

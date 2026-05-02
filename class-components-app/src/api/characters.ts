@@ -24,9 +24,13 @@ export const fetchCharactersApi = async (name: string = "", page: number = 0) =>
       }
     );
 
+    if (!response.ok) {
+      throw new Error(`HTTP error: ${response.status}`);
+    }
+
     const data: CharactersResponse = await response.json();
 
-    const items =
+    return (
       data.characters?.map((char: Character) => {
         const infos = [
           char.gender && `Gender: ${char.gender}`,
@@ -43,9 +47,9 @@ export const fetchCharactersApi = async (name: string = "", page: number = 0) =>
               ? infos.join(" | ")
               : "No detailed information available",
         };
-      }) || [];
-    return items;
+      }) || []
+    )
   } catch (err) {
-    console.error(err);
+    throw err;
   }
 };

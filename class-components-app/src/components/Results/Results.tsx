@@ -1,7 +1,8 @@
 import "./results.css";
 import React from 'react';
 import CardList from "./CardList";
-import type { Item } from "./types";
+import type { Item} from "../../api/types";
+import { fetchCharactersApi } from "../../api/characters";
 
 type ResultsState = {
   items: Item[];
@@ -9,29 +10,26 @@ type ResultsState = {
 
 class ResultsSection extends React.Component<{}, ResultsState> {
   state: ResultsState = {
-    items: [
-      {
-        id: "1",
-        name: "Jean-Luc Picard",
-        description: "Captain of the USS Enterprise",
-      },
-      {
-        id: "2",
-        name: "Spock",
-        description: "Science officer, half-Vulcan",
-      },
-      {
-        id: "3",
-        name: "James T. Kirk",
-        description: "Captain of the USS Enterprise, famous for bold and risky decisions",
-      },
-      {
-        id: "4",
-        name: "Data",
-        description: "Android officer aboard the USS Enterprise-D, стремится понять человечность",
-      },
-    ],
+    items: [],
   };
+
+  componentDidMount() {
+    const savedSearch = localStorage.getItem("search") || "";
+    this.fetchCharacters(savedSearch);
+  }
+  
+  fetchCharacters = async (name: string) => {
+    try {
+      const items = await fetchCharactersApi(name, 0);
+
+      if (items) {
+        this.setState({ items });
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   render() {
     return (
         <section className="results-section">

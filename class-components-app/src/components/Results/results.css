@@ -98,3 +98,39 @@ h2 {
     align-self: flex-end;
     margin-top: 1rem;
 }
+
+.loading-div {
+  width: 90%;
+  height: auto;
+  padding: 2rem 0;
+  font-family: 'Exo 2', sans-serif;
+  color: #ffffff;
+  font-size: 1.3rem;
+
+  background: linear-gradient(
+    90deg,
+    #ffffff 0%,
+    #ffffff 40%,
+    #FF9F1C 50%,
+    #ffffff 60%,
+    #ffffff 100%
+  );
+
+  background-size: 200% 100%;
+  background-position: 0% 0%;
+  
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+
+  animation: shine 3s linear infinite;
+}
+
+@keyframes shine {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}

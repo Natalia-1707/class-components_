@@ -22,14 +22,18 @@ class SearchSection extends React.Component <Props, State> {
    handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     this.setState({ searchValue: value });
-    localStorage.setItem("search", value);
   };
 
   handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
     const trimmed = this.state.searchValue.trim();
+    const saved = localStorage.getItem("search") || "";
 
+    if (trimmed === saved) return;
+
+    localStorage.setItem("search", trimmed);
+    console.log(localStorage)
     this.props.onSearch(trimmed);
   };
 

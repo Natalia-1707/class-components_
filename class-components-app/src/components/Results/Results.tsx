@@ -8,6 +8,7 @@ type ResultsState = {
   items: Item[];
   loading: boolean;
   error: string | null;
+  shouldCrash: boolean;
 };
 
 class ResultsSection extends React.Component<{}, ResultsState> {
@@ -15,6 +16,7 @@ class ResultsSection extends React.Component<{}, ResultsState> {
     items: [],
     loading: false,
     error: null,
+    shouldCrash: false,
   };
 
   componentDidMount() {
@@ -28,7 +30,7 @@ class ResultsSection extends React.Component<{}, ResultsState> {
     if (name.trim() === this.lastSearch) return;
     this.lastSearch = name.trim();
 
-    this.setState({ loading: true, items: [] });
+    this.setState({ loading: true, items: [], error: null });
 
     try {
       const items = await fetchCharactersApi(name, 0);
@@ -42,7 +44,7 @@ class ResultsSection extends React.Component<{}, ResultsState> {
 
     } catch (err) {
       this.setState({
-        error: "Something went wrong :(\nPlease try again later.",
+        error: "Something went wrong 😢\nPlease try again later.",
       });
     } finally {
       this.setState({ loading: false });
@@ -50,6 +52,9 @@ class ResultsSection extends React.Component<{}, ResultsState> {
   };
 
   render() {
+    if (this.state.shouldCrash) {
+      throw new Error("Test crash");
+    }
     return (
         <section className="results-section">
             <h2>Results</h2>
@@ -66,7 +71,11 @@ class ResultsSection extends React.Component<{}, ResultsState> {
                   <CardList items={this.state.items} />
                 )}
             </div>
-            <button>Error</button>
+            <button onClick={() => {
+              this.setState({ shouldCrash: true });
+            }}>
+              Error
+            </button>
         </section>
     )
   }

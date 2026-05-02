@@ -134,3 +134,13 @@ h2 {
     background-position: -200% 0;
   }
 }
+
+.error-div {
+  width: 90%;
+  padding: 2rem 0;
+  color: #ffffff;
+  font-family: 'Exo 2', sans-serif;
+  font-size: 1.2rem;
+  white-space: pre-line;
+  line-height: 2rem;
+}

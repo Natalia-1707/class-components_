@@ -6,11 +6,13 @@ import { fetchCharactersApi } from "../../api/characters";
 
 type ResultsState = {
   items: Item[];
+  loading: boolean;
 };
 
 class ResultsSection extends React.Component<{}, ResultsState> {
   state: ResultsState = {
     items: [],
+    loading: false,
   };
 
   componentDidMount() {
@@ -24,6 +26,8 @@ class ResultsSection extends React.Component<{}, ResultsState> {
     if (name.trim() === this.lastSearch) return;
     this.lastSearch = name.trim();
 
+    this.setState({ loading: true, items: [] });
+
     try {
       const items = await fetchCharactersApi(name, 0);
 
@@ -32,6 +36,8 @@ class ResultsSection extends React.Component<{}, ResultsState> {
       }
     } catch (err) {
       console.error(err);
+    } finally {
+      this.setState({ loading: false });
     }
   };
 
@@ -44,7 +50,11 @@ class ResultsSection extends React.Component<{}, ResultsState> {
                     <div>Item Name</div>
                     <div>Item Description</div>
                 </div>
-                <CardList items={this.state.items}/>
+                {this.state.loading ? (
+                  <div className="loading-div">Loading...</div>
+                ) : (
+                  <CardList items={this.state.items} />
+                )}
             </div>
             <button>Error</button>
         </section>

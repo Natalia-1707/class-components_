@@ -11,6 +11,8 @@ export const fetchCharactersApi = async (name: string = "", page: number = 0) =>
       bodyParams.name = name.trim();
     }
 
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+
     const response = await fetch(
       "http://stapi.co/api/v1/rest/character/search",
       {

@@ -15,7 +15,7 @@ export const fetchCharactersApi = async (
 
   await new Promise((resolve) => setTimeout(resolve, 1000));
 
-  const response = await fetch('http://stapi.co/api/v1/rest/character/search', {
+  const response = await fetch('https://stapi.co/api/v1/rest/character/search', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded',

@@ -1,5 +1,5 @@
-import "./errorboundary.css";
-import React from "react";
+import './errorboundary.css';
+import React from 'react';
 
 type Props = {
   children: React.ReactNode;
@@ -19,7 +19,7 @@ class ErrorBoundary extends React.Component<Props, State> {
   }
 
   componentDidCatch(error: Error) {
-    console.error("Error caught by boundary:", error);
+    console.error('Error caught by boundary:', error);
   }
 
   resetError = () => {
@@ -31,7 +31,9 @@ class ErrorBoundary extends React.Component<Props, State> {
       return (
         <div className="fallback-ui">
           <h2>Something went wrong 😢</h2>
-          <button className="fallbackui-btn" onClick={this.resetError}>Try again</button>
+          <button className="fallbackui-btn" onClick={this.resetError}>
+            Try again
+          </button>
         </div>
       );
     }

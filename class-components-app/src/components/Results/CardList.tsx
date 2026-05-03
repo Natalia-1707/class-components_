@@ -1,5 +1,5 @@
-import React from "react";
-import type { Item } from "../../api/types";
+import React from 'react';
+import type { Item } from '../../api/types';
 
 type Props = {
   items: Item[];

@@ -22,6 +22,20 @@ test('renders app title', () => {
   expect(screen.getByText(/Star Trek Search/i)).toBeInTheDocument();
 });
 
+test('saves search value to localStorage', async () => {
+  const user = userEvent.setup();
+
+  render(<App />);
+
+  const input = screen.getByRole('textbox');
+  const button = screen.getByRole('button');
+
+  await user.type(input, 'spock');
+  await user.click(button);
+
+  expect(localStorage.getItem('search')).toBe('spock');
+});
+
 test('calls fetchCharacters when search is triggered', async () => {
   const user = userEvent.setup();
 

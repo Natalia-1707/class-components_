@@ -17,14 +17,10 @@ vi.mock('./components/Results/Results', () => ({
 
 import App from './App';
 
-// render App title//
-
 test('renders app title', () => {
   render(<App />);
   expect(screen.getByText(/Star Trek Search/i)).toBeInTheDocument();
 });
-
-//Verify props are passed correctly and handleSearch calls fetchCharacters//
 
 test('calls fetchCharacters when search is triggered', async () => {
   const user = userEvent.setup();

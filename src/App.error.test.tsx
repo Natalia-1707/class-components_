@@ -9,8 +9,6 @@ vi.mock('./components/Results/Results', () => ({
 
 import App from './App';
 
-//ErrorBoundary//
-
 test('shows fallback UI when child throws error', () => {
   render(<App />);
   expect(screen.getByText(/something went wrong/i)).toBeInTheDocument();

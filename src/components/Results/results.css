@@ -7,7 +7,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 2rem;
+  gap: 1rem;
 }
 
 h2 {
@@ -15,7 +15,7 @@ h2 {
   height: auto;
   font-family: 'Exo 2', sans-serif;
   color: #ffffff;
-  font-size: 1.7rem;
+  font-size: 1.5rem;
 }
 
 .results-wrapper {
@@ -46,7 +46,7 @@ h2 {
   justify-content: center;
   align-items: center;
   font-family: 'Exo 2', sans-serif;
-  font-size: 1.2rem;
+  font-size: 1rem;
 }
 
 .result-item {
@@ -75,7 +75,7 @@ h2 {
   width: 100%;
   height: auto;
   display: flex;
-  padding: 0.3rem;
+  padding: 0.1rem;
   justify-content: center;
   align-items: center;
   white-space: normal;
@@ -85,7 +85,7 @@ h2 {
 .results-header div {
   width: 50%;
   height: 70px;
-  padding: 0.3rem;
+  padding: 0.1rem;
   color: #ff9f1c;
   border-bottom: 1px solid #ff9f1c;
 }

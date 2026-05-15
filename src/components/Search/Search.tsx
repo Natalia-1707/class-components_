@@ -1,59 +1,48 @@
 import './search.css';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import type { Props } from '../../api/types';
 
-type State = {
-  searchValue: string;
-};
+function SearchSection({ onSearch }: Props) {
+  const [searchValue, setSearchValue] = useState<string>('');
 
-class SearchSection extends React.Component<Props, State> {
-  state: State = {
-    searchValue: '',
-  };
-
-  componentDidMount() {
+  useEffect(() => {
     const savedValue = localStorage.getItem('search');
 
     if (savedValue) {
-      this.setState({ searchValue: savedValue });
+      setSearchValue(savedValue);
     }
-  }
+  }, []);
 
-  handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
-    this.setState({ searchValue: value });
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchValue(e.target.value);
   };
 
-  handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const trimmed = this.state.searchValue.trim();
-    const saved = localStorage.getItem('search') || '';
+    const trimmed = searchValue.trim();
+    const saved = localStorage.getItem('search');
 
     if (trimmed === saved) return;
 
     localStorage.setItem('search', trimmed);
-    console.log(localStorage);
-    this.props.onSearch(trimmed);
+    onSearch(trimmed);
   };
 
-  render() {
-    return (
-      <section className="search-section">
-        <form onSubmit={this.handleSubmit}>
-          <label htmlFor="search"></label>
-          <input
-            type="text"
-            id="search"
-            className="input"
-            value={this.state.searchValue}
-            onChange={this.handleChange}
-          />
-          <button type="submit">Search</button>
-        </form>
-      </section>
-    );
-  }
+  return (
+    <section className="search-section">
+      <form onSubmit={handleSubmit}>
+        <input
+          type="text"
+          id="search"
+          className="input"
+          value={searchValue}
+          onChange={handleChange}
+        />
+        <button type="submit">Search</button>
+      </form>
+    </section>
+  );
 }
 
 export default SearchSection;

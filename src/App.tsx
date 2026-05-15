@@ -1,27 +1,25 @@
-import React from 'react';
+import { useState } from 'react';
 import './App.css';
 import SearchSection from './components/Search/Search';
 import ResultsSection from './components/Results/Results';
 import ErrorBoundary from './components/ErrorBoundary/ErrorBoundary';
 
-class App extends React.Component {
-  resultsRef = React.createRef<ResultsSection>();
+function App () {
+  const [search, setSearch] = useState('');
 
-  handleSearch = (value: string) => {
-    this.resultsRef.current?.fetchCharacters(value);
+  const handleSearch = (value: string) => {
+    setSearch(value);
   };
 
-  render() {
-    return (
-      <div className="app-wrapper">
-        <h1>Star Trek Search</h1>
-        <ErrorBoundary>
-          <SearchSection onSearch={this.handleSearch} />
-          <ResultsSection ref={this.resultsRef} />
-        </ErrorBoundary>
-      </div>
-    );
-  }
+  return (
+    <div className="app-wrapper">
+      <h1>Star Trek Search</h1>
+      <ErrorBoundary>
+        <SearchSection onSearch={handleSearch} />
+        <ResultsSection search={search} />
+      </ErrorBoundary>
+    </div>
+  );
 }
 
 export default App;

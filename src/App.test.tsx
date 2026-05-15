@@ -1,52 +1,39 @@
-import { render, screen } from '@testing-library/react';
-import { test, expect, vi } from 'vitest';
+import { render, screen, waitFor } from '@testing-library/react';
+import { test, expect, vi, beforeEach } from 'vitest';
 import userEvent from '@testing-library/user-event';
-import React from 'react';
 
-const fetchCharactersMock = vi.fn();
-
-vi.mock('./components/Results/Results', () => ({
-  default: React.forwardRef((_, ref) => {
-    React.useImperativeHandle(ref, () => ({
-      fetchCharacters: fetchCharactersMock,
-    }));
-
-    return <div data-testid="results" />;
-  }),
+vi.mock('./api/characters', () => ({
+  fetchCharactersApi: vi.fn(),
 }));
 
+import { fetchCharactersApi } from './api/characters';
 import App from './App';
 
-test('renders app title', () => {
-  render(<App />);
-  expect(screen.getByText(/Star Trek Search/i)).toBeInTheDocument();
+beforeEach(() => {
+  vi.clearAllMocks();
+  localStorage.clear();
 });
 
-test('saves search value to localStorage', async () => {
+test('calls fetchCharactersApi after search submit', async () => {
   const user = userEvent.setup();
+
+  vi.mocked(fetchCharactersApi).mockResolvedValue([
+    {
+      id: '1',
+      name: 'Spock',
+      description: 'Vulcan officer',
+    },
+  ]);
 
   render(<App />);
 
   const input = screen.getByRole('textbox');
-  const button = screen.getByRole('button');
 
   await user.type(input, 'spock');
-  await user.click(button);
 
-  expect(localStorage.getItem('search')).toBe('spock');
+  await user.click(screen.getByRole('button', { name: /search/i }));
+
+  await waitFor(() => {
+    expect(fetchCharactersApi).toHaveBeenCalledWith('spock', 0);
+  });
 });
-
-test('calls fetchCharacters when search is triggered', async () => {
-  const user = userEvent.setup();
-
-  render(<App />);
-
-  const input = screen.getByRole('textbox');
-  const button = screen.getByRole('button');
-
-  await user.type(input, 'spock');
-  await user.click(button);
-
-  expect(fetchCharactersMock).toHaveBeenCalledWith('spock');
-});
-

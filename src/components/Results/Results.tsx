@@ -1,61 +1,53 @@
 import './results.css';
-import React from 'react';
+import { useEffect, useRef, useState } from 'react';
 import CardList from './CardList';
 import type { Item } from '../../api/types';
 import { fetchCharactersApi } from '../../api/characters';
 
-type ResultsState = {
-  items: Item[];
-  loading: boolean;
-  error: string | null;
-  shouldCrash: boolean;
-};
+function ResultsSection ({ search }: { search: string }) {
+  
+  const [items, setItems] = useState<Item[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [shouldCrash, setShouldCrash] = useState(false);
 
-type Props = object;
+  const lastSearch = useRef('');
 
-class ResultsSection extends React.Component<Props, ResultsState> {
-  state: ResultsState = {
-    items: [],
-    loading: false,
-    error: null,
-    shouldCrash: false,
-  };
+  const fetchCharacters = async (name: string) => {
+    const trimmedName = name.trim();
 
-  componentDidMount() {
-    const savedSearch = localStorage.getItem('search') || '';
-    this.fetchCharacters(savedSearch);
-  }
+    if (trimmedName && trimmedName === lastSearch.current) return;
 
-  private lastSearch = '';
+    lastSearch.current = trimmedName;
 
-  fetchCharacters = async (name: string) => {
-    if (name.trim() === this.lastSearch) return;
-    this.lastSearch = name.trim();
-
-    this.setState({ loading: true, items: [], error: null });
+    setLoading(true);
+    setItems([]);
+    setError(null);
 
     try {
       const items = await fetchCharactersApi(name, 0);
 
       if (!items) {
-        this.setState({ error: 'No data received from server' });
+        setError('No data received from server');
         return;
       }
 
-      this.setState({ items });
+      setItems(items);
     } catch {
-      this.setState({
-        error: 'Something went wrong 😢\nPlease try again later.',
-      });
+      setError('Something went wrong 😢\nPlease try again later.')
     } finally {
-      this.setState({ loading: false });
+      setLoading(false);
     }
   };
 
-  render() {
-    if (this.state.shouldCrash) {
-      throw new Error('Test crash');
-    }
+  useEffect(() => {
+    fetchCharacters(search || localStorage.getItem('search') || '');
+  }, [search]);
+
+  if (shouldCrash) {
+    throw new Error('Test crash');
+  }
+
     return (
       <section className="results-section">
         <h2>Results</h2>
@@ -64,24 +56,24 @@ class ResultsSection extends React.Component<Props, ResultsState> {
             <div>Item Name</div>
             <div>Item Description</div>
           </div>
-          {this.state.loading ? (
+          { loading ? (
             <div className="loading-div">Loading...</div>
-          ) : this.state.error ? (
-            <div className="error-div">{this.state.error}</div>
+          ) : error ? (
+            <div className="error-div">{error}</div>
           ) : (
-            <CardList items={this.state.items} />
+            <CardList items={items} />
           )}
         </div>
         <button
           onClick={() => {
-            this.setState({ shouldCrash: true });
+            setShouldCrash(true);
           }}
         >
           Error
         </button>
       </section>
-    );
-  }
+  )
 }
 
 export default ResultsSection;
+

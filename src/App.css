@@ -15,7 +15,7 @@ body {
   justify-content: center;
   align-items: center;
   margin: 2rem auto;
-  gap: 3rem;
+  gap: 1rem;
 }
 
 h1 {
@@ -25,6 +25,6 @@ h1 {
   line-height: 3.5rem;
   color: #ff9f1c;
   text-shadow: 0 0 8px #ff9f1c;
-  font-size: 3rem;
-  margin-bottom: 3rem;
+  font-size: 2.5rem;
+  margin-bottom: 2rem;
 }

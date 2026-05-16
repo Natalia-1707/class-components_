@@ -4,12 +4,12 @@ import userEvent from '@testing-library/user-event';
 import { MemoryRouter } from 'react-router-dom';
 
 
-vi.mock('../api/characters', () => ({
+vi.mock('../../api/characters', () => ({
   fetchCharactersApi: vi.fn(),
 }));
 
-import { fetchCharactersApi } from '../api/characters';
-import MainPage from './MainPage';
+import { fetchCharactersApi } from '../../api/characters';
+import MainPage from '../Main/MainPage';
 
 beforeEach(() => {
   vi.clearAllMocks();

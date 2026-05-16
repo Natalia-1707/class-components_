@@ -1,7 +1,7 @@
 import { Routes, Route, Navigate } from 'react-router-dom';
-import MainPage from './pages/MainPage';
-import AboutPage from './pages/AboutPage';
-import NotFoundPage from './pages/NotFoundPage';
+import MainPage from './pages/Main/MainPage';
+import AboutPage from './pages/About/AboutPage';
+import NotFoundPage from './pages/404/NotFoundPage';
 import ErrorBoundary from './components/ErrorBoundary/ErrorBoundary';
 
 function App () {

@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import './mainpage.css';
-import SearchSection from '../components/Search/Search';
-import ResultsSection from '../components/Results/Results';
+import SearchSection from '../../components/Search/Search';
+import ResultsSection from '../../components/Results/Results';
 import { Link } from 'react-router-dom';
 
 function MainPage () {

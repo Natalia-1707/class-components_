@@ -1,17 +1,11 @@
 import './search.css';
-import React, { useEffect, useState } from 'react';
 import type { Props } from '../../api/types';
+import { useLocalStorage } from '../../hooks/useLocalStorage';
+
 
 function SearchSection({ onSearch }: Props) {
-  const [searchValue, setSearchValue] = useState<string>('');
-
-  useEffect(() => {
-    const savedValue = localStorage.getItem('search');
-
-    if (savedValue) {
-      setSearchValue(savedValue);
-    }
-  }, []);
+  const [searchValue, setSearchValue] = useLocalStorage('search');
+  const [savedSearch, setSavedSearch] = useLocalStorage('savedSearch');
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchValue(e.target.value);
@@ -21,11 +15,14 @@ function SearchSection({ onSearch }: Props) {
     e.preventDefault();
 
     const trimmed = searchValue.trim();
-    const saved = localStorage.getItem('search');
 
-    if (trimmed === saved) return;
+    if (!trimmed) return;
+    if (trimmed === savedSearch) {
+      return;
+    }
+    setSearchValue(trimmed);
+    setSavedSearch(trimmed);
 
-    localStorage.setItem('search', trimmed);
     onSearch(trimmed);
   };
 

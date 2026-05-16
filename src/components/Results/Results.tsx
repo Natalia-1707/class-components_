@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from 'react';
 import CardList from './CardList';
 import type { Item } from '../../api/types';
 import { fetchCharactersApi } from '../../api/characters';
+import { useLocalStorage } from '../../hooks/useLocalStorage';
 
 function ResultsSection ({ search }: { search: string }) {
   
@@ -40,9 +41,11 @@ function ResultsSection ({ search }: { search: string }) {
     }
   };
 
+  const [savedSearch] = useLocalStorage('search');
+
   useEffect(() => {
-    fetchCharacters(search || localStorage.getItem('search') || '');
-  }, [search]);
+    fetchCharacters(search || savedSearch || '');
+  }, [search, savedSearch]);
 
   if (shouldCrash) {
     throw new Error('Test crash');

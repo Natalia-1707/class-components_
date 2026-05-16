@@ -1,0 +1,38 @@
+.about-wrapper {
+  width: 90%;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 2rem auto;
+  gap: 1rem;
+  font-family: 'Exo 2', sans-serif;
+  color: #ffffff;
+  font-size: 1.2rem;
+}
+
+a {
+  color: #ff9f1c80;
+}
+
+.back-button {
+  width: auto;
+  height: auto;
+  padding: 0.4rem;
+  border: 1px solid #ff9f1c;
+  border-radius: 5px;
+  background-color: #ffffff;
+  font-family: 'Exo 2', sans-serif;
+  color: #0b0f1a;
+  font-size: 1.2rem;
+  text-decoration: none;
+  transition: all 0.3s;
+  cursor: pointer;
+}
+
+.back-button:hover {
+  background-color: #ff9f1c;
+  font-weight: bold;
+  transform: scale(1.05);
+}

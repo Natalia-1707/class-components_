@@ -1,13 +1,15 @@
 import { render, screen, waitFor } from '@testing-library/react';
 import { test, expect, vi, beforeEach } from 'vitest';
 import userEvent from '@testing-library/user-event';
+import { MemoryRouter } from 'react-router-dom';
 
-vi.mock('./api/characters', () => ({
+
+vi.mock('../api/characters', () => ({
   fetchCharactersApi: vi.fn(),
 }));
 
-import { fetchCharactersApi } from './api/characters';
-import App from './App';
+import { fetchCharactersApi } from '../api/characters';
+import MainPage from './MainPage';
 
 beforeEach(() => {
   vi.clearAllMocks();
@@ -25,7 +27,11 @@ test('calls fetchCharactersApi after search submit', async () => {
     },
   ]);
 
-  render(<App />);
+  render(
+    <MemoryRouter>
+      <MainPage />
+    </MemoryRouter>
+  );
 
   const input = screen.getByRole('textbox');
 

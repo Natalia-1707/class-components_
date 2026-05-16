@@ -1,0 +1,50 @@
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #0b0f1a;
+}
+
+.app-wrapper {
+  position: relative;
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 2rem auto;
+  gap: 1rem;
+}
+
+.nav-about {
+  position: absolute;
+  width: auto;
+  height: auto;
+  text-decoration: none;
+  top: -1rem;
+  right: 1rem;
+  color: #ffffff;
+  font-family: 'Exo 2', sans-serif;
+  font-size: 1rem;
+  transition: all 0.3s;
+  cursor: pointer;
+}
+
+.nav-about:hover {
+  color: #ff9f1c;
+  font-weight: bold;
+  transform: scale(1.05);
+}
+
+h1 {
+  width: 90%;
+  height: auto;
+  font-family: 'Orbitron', sans-serif;
+  line-height: 3.5rem;
+  color: #ff9f1c;
+  text-shadow: 0 0 8px #ff9f1c;
+  font-size: 2.5rem;
+  margin-bottom: 2rem;
+}
+

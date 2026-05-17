@@ -1,61 +1,70 @@
 import './results.css';
-import React from 'react';
+import { useEffect, useState } from 'react';
 import CardList from './CardList';
 import type { Item } from '../../api/types';
 import { fetchCharactersApi } from '../../api/characters';
+import { useLocalStorage } from '../../hooks/useLocalStorage';
+import Pagination from './Pagination';
+import { useSearchParams } from 'react-router-dom';
 
-type ResultsState = {
-  items: Item[];
-  loading: boolean;
-  error: string | null;
-  shouldCrash: boolean;
-};
+function ResultsSection ({ search }: { search: string }) {
+  
+  const [items, setItems] = useState<Item[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [shouldCrash, setShouldCrash] = useState(false);
+  
+  const [searchParams, setSearchParams] = useSearchParams();
 
-type Props = object;
+  const pageFromUrl = Number(searchParams.get('page') || 1);
+  const page = pageFromUrl - 1;
 
-class ResultsSection extends React.Component<Props, ResultsState> {
-  state: ResultsState = {
-    items: [],
-    loading: false,
-    error: null,
-    shouldCrash: false,
-  };
+  const ITEMS_PER_PAGE = 10;
 
-  componentDidMount() {
-    const savedSearch = localStorage.getItem('search') || '';
-    this.fetchCharacters(savedSearch);
-  }
+  const paginatedItems = items.slice(
+    page * ITEMS_PER_PAGE,
+    page * ITEMS_PER_PAGE + ITEMS_PER_PAGE
+  );
 
-  private lastSearch = '';
+  const fetchCharacters = async (name: string) => {
+  const trimmedName = name.trim();
 
-  fetchCharacters = async (name: string) => {
-    if (name.trim() === this.lastSearch) return;
-    this.lastSearch = name.trim();
-
-    this.setState({ loading: true, items: [], error: null });
+  setLoading(true);
+  setError(null);
 
     try {
-      const items = await fetchCharactersApi(name, 0);
+      const data = await fetchCharactersApi(trimmedName);
 
-      if (!items) {
-        this.setState({ error: 'No data received from server' });
+      if (!data) {
+        setError('No data received from server');
         return;
       }
 
-      this.setState({ items });
+      setItems(data);
     } catch {
-      this.setState({
-        error: 'Something went wrong 😢\nPlease try again later.',
-      });
+      setError('Something went wrong 😢\nPlease try again later.');
     } finally {
-      this.setState({ loading: false });
+      setLoading(false);
     }
   };
 
-  render() {
-    if (this.state.shouldCrash) {
-      throw new Error('Test crash');
-    }
+  const [savedSearch] = useLocalStorage('search');
+  const hasNextPage =  (page + 1) * ITEMS_PER_PAGE < items.length;
+  
+  useEffect(() => {
+    const name = search || savedSearch || '';
+
+    fetchCharacters(name);
+  }, [search, savedSearch]);
+
+  useEffect(() => {
+    setSearchParams({ page: '1' }, { replace: true });
+  }, [search]);
+
+  if (shouldCrash) {
+    throw new Error('Test crash');
+  }
+
     return (
       <section className="results-section">
         <h2>Results</h2>
@@ -64,24 +73,36 @@ class ResultsSection extends React.Component<Props, ResultsState> {
             <div>Item Name</div>
             <div>Item Description</div>
           </div>
-          {this.state.loading ? (
+          { loading ? (
             <div className="loading-div">Loading...</div>
-          ) : this.state.error ? (
-            <div className="error-div">{this.state.error}</div>
+          ) : error ? (
+            <div className="error-div">{error}</div>
           ) : (
-            <CardList items={this.state.items} />
+            <CardList items={paginatedItems} />
           )}
         </div>
+        {items.length > 0 && (
+          <Pagination
+            page={page}
+            hasNextPage={hasNextPage}
+            onPrevPage={() => {
+              setSearchParams({ page: String(pageFromUrl - 1) });
+            }}
+            onNextPage={() => {
+               setSearchParams({ page: String(pageFromUrl + 1) });
+            }}
+          />
+        )}
         <button
           onClick={() => {
-            this.setState({ shouldCrash: true });
+            setShouldCrash(true);
           }}
         >
           Error
         </button>
       </section>
-    );
-  }
+  )
 }
 
 export default ResultsSection;
+

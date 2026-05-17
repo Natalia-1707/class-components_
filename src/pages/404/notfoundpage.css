@@ -1,0 +1,28 @@
+.not-found-page-wrapper {
+  width: 90%;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 2rem auto;
+  gap: 1rem;
+  font-family: 'Exo 2', sans-serif;
+  color: #ffffff;
+  font-size: 1.2rem;
+}
+
+.not-found-page-link {
+  width: auto;
+  height: auto;
+  text-decoration: none;
+  color: #ff9f1c;
+  transition: all 0.3s;
+  cursor: pointer;
+}
+
+.not-found-page-link:hover {
+  color: #ff9f1c;
+  font-weight: bold;
+  transform: scale(1.05);
+}

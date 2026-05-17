@@ -5,7 +5,6 @@ export type Item = {
 };
 
 export type RequestParams = {
-  pageNumber: string;
   pageSize: string;
   name?: string;
 };

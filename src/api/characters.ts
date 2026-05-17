@@ -2,11 +2,9 @@ import type { RequestParams, Character, CharactersResponse } from './types';
 
 export const fetchCharactersApi = async (
   name: string = '',
-  page: number = 0
 ) => {
   const bodyParams: RequestParams = {
-    pageNumber: String(page),
-    pageSize: '20',
+    pageSize: '10',
   };
 
   if (name.trim()) {

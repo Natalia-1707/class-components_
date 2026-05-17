@@ -1,27 +1,21 @@
-import React from 'react';
-import './App.css';
-import SearchSection from './components/Search/Search';
-import ResultsSection from './components/Results/Results';
+import { Routes, Route, Navigate } from 'react-router-dom';
+import MainPage from './pages/Main/MainPage';
+import AboutPage from './pages/About/AboutPage';
+import NotFoundPage from './pages/404/NotFoundPage';
 import ErrorBoundary from './components/ErrorBoundary/ErrorBoundary';
 
-class App extends React.Component {
-  resultsRef = React.createRef<ResultsSection>();
+function App () {
 
-  handleSearch = (value: string) => {
-    this.resultsRef.current?.fetchCharacters(value);
-  };
-
-  render() {
-    return (
-      <div className="app-wrapper">
-        <h1>Star Trek Search</h1>
-        <ErrorBoundary>
-          <SearchSection onSearch={this.handleSearch} />
-          <ResultsSection ref={this.resultsRef} />
-        </ErrorBoundary>
-      </div>
-    );
-  }
+  return (
+      <ErrorBoundary>
+        <Routes>
+          <Route path="/" element={<Navigate to="/main" replace />} />
+          <Route path="/main" element={<MainPage />} />
+          <Route path="/about" element={<AboutPage />} />
+          <Route path="*" element={<NotFoundPage />} />
+        </Routes>
+      </ErrorBoundary>
+  );
 }
 
 export default App;

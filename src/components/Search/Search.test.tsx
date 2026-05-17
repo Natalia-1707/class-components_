@@ -26,3 +26,21 @@ describe('SearchSection', () => {
     expect(input).toHaveValue('hello');
   });
 });
+
+test('does not call onSearch if value is same as savedSearch', async () => {
+  const user = userEvent.setup();
+  const mockSearch = vi.fn();
+
+  localStorage.setItem('savedSearch', 'spock');
+
+  render(<SearchSection onSearch={mockSearch} />);
+
+  const input = screen.getByRole('textbox');
+  const button = screen.getByRole('button');
+
+  await user.clear(input);
+  await user.type(input, 'spock');
+  await user.click(button);
+
+  expect(mockSearch).not.toHaveBeenCalled();
+});

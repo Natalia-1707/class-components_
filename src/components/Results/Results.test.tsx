@@ -2,6 +2,15 @@ import { render, screen, waitFor } from '@testing-library/react';
 import { test, expect, vi, beforeEach } from 'vitest';
 import ResultsSection from './Results';
 import { fetchCharactersApi } from '../../api/characters';
+import { MemoryRouter } from 'react-router-dom';
+
+const renderWithRouter = (ui: React.ReactNode) => {
+  return render(
+    <MemoryRouter>
+      {ui}
+    </MemoryRouter>
+  );
+};
 
 vi.mock('../../api/characters', () => ({
   fetchCharactersApi: vi.fn(),
@@ -15,7 +24,7 @@ beforeEach(() => {
 });
 
 test('renders Results section headers', () => {
-  render(<ResultsSection search="" />);
+  renderWithRouter(<ResultsSection search="" />);
 
   expect(screen.getByText(/Results/i)).toBeInTheDocument();
   expect(screen.getByText(/Item Name/i)).toBeInTheDocument();
@@ -27,7 +36,7 @@ test('shows loading state while fetching', () => {
     () => new Promise(() => {})
   );
 
-  render(<ResultsSection search="spock" />);
+ renderWithRouter(<ResultsSection search="spock" />);
 
   expect(screen.getByText(/Loading/i)).toBeInTheDocument();
 });
@@ -41,7 +50,7 @@ test('renders fetched results', async () => {
     },
   ]);
 
-  render(<ResultsSection search="spock" />);
+  renderWithRouter(<ResultsSection search="spock" />);
 
   expect(await screen.findByText(/Spock/i)).toBeInTheDocument();
   expect(screen.getByText(/Born: 2230/i)).toBeInTheDocument();
@@ -50,7 +59,7 @@ test('renders fetched results', async () => {
 test('renders error message when API fails', async () => {
   mockedFetchCharactersApi.mockRejectedValue(new Error('API Error'));
 
-  render(<ResultsSection search="spock" />);
+  renderWithRouter(<ResultsSection search="spock" />);
 
   expect(await screen.findByText(/Something went wrong/i)).toBeInTheDocument();
   expect(screen.getByText(/Please try again later/i)).toBeInTheDocument();
@@ -59,7 +68,7 @@ test('renders error message when API fails', async () => {
 test('shows no data error when API returns null', async () => {
   mockedFetchCharactersApi.mockResolvedValue(null);
 
-  render(<ResultsSection search="spock" />);
+  renderWithRouter(<ResultsSection search="spock" />);
 
   expect(await screen.findByText(/No data received from server/i)).toBeInTheDocument();
 });
@@ -68,9 +77,23 @@ test('shows no data error when API returns null', async () => {
 test('calls API when search changes', async () => {
   mockedFetchCharactersApi.mockResolvedValue([]);
 
-  render(<ResultsSection search="spock" />);
+  renderWithRouter(<ResultsSection search="spock" />);
 
   await waitFor(() => {
-    expect(mockedFetchCharactersApi).toHaveBeenCalledWith('spock', 0);
+    expect(mockedFetchCharactersApi).toHaveBeenCalledWith('spock');
   });
 });
+
+test('crashes when error button is clicked', () => {
+  const spy = vi.spyOn(console, 'error').mockImplementation(() => {});
+
+  renderWithRouter(<ResultsSection search="spock" />);
+
+  const btn = screen.getByText('Error');
+  btn.click();
+
+  expect(btn).toBeInTheDocument();
+
+  spy.mockRestore();
+});
+

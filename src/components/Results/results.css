@@ -94,6 +94,39 @@ h2 {
   border-right: 1px solid #ff9f1c;
 }
 
+.pagination {
+  width: auto;
+  height: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.page-number {
+  width: auto;
+  height: auto;
+  padding: 0.2rem;
+  font-family: 'Exo 2', sans-serif;
+  color: #ffffff;
+  font-size: 1rem;
+}
+
+.material-symbols-outlined {
+  color: #ffffff;
+  transition: all 0.5s;
+  cursor: pointer;
+}
+
+.material-symbols-outlined:hover {
+  color: #ff9f1c;
+}
+
+.pagination-disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
 .results-section button {
   align-self: flex-end;
   margin-top: 1rem;

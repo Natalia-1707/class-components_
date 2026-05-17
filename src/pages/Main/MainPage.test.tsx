@@ -40,6 +40,6 @@ test('calls fetchCharactersApi after search submit', async () => {
   await user.click(screen.getByRole('button', { name: /search/i }));
 
   await waitFor(() => {
-    expect(fetchCharactersApi).toHaveBeenCalledWith('spock', 0);
+    expect(fetchCharactersApi).toHaveBeenCalledWith('spock');
   });
 });

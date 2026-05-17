@@ -12,19 +12,18 @@ function SearchSection({ onSearch }: Props) {
   };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  e.preventDefault();
 
-    const trimmed = searchValue.trim();
+  const trimmed = searchValue.trim();
 
-    if (!trimmed) return;
-    if (trimmed === savedSearch) {
-      return;
-    }
-    setSearchValue(trimmed);
-    setSavedSearch(trimmed);
+  if (!trimmed) return;
+  if (trimmed === savedSearch) return;
 
-    onSearch(trimmed);
-  };
+  setSearchValue(trimmed);
+  setSavedSearch(trimmed);
+
+  onSearch(trimmed);
+};
 
   return (
     <section className="search-section">

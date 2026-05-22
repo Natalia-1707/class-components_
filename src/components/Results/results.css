@@ -50,6 +50,7 @@ h2 {
 }
 
 .result-item {
+  position: relative;
   width: 100%;
   position: relative;
   min-height: 70px;
@@ -92,6 +93,13 @@ h2 {
 
 .results-header div:first-child {
   border-right: 1px solid #ff9f1c;
+}
+
+.checkbox {
+  position: absolute;
+  width: 1rem;
+  height: 1rem;
+  left: 1rem; 
 }
 
 .pagination {

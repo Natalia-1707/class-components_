@@ -31,7 +31,7 @@ function SearchSection({ onSearch }: Props) {
         <input
           type="text"
           id="search"
-          className="input"
+          className="input-search"
           value={searchValue}
           onChange={handleChange}
         />

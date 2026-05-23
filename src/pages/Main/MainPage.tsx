@@ -3,6 +3,7 @@ import './mainpage.css';
 import SearchSection from '../../components/Search/Search';
 import ResultsSection from '../../components/Results/Results';
 import { Link } from 'react-router-dom';
+import Flyout from '../../components/Flyout/Flyout';
 
 function MainPage () {
   const [search, setSearch] = useState('');
@@ -17,6 +18,7 @@ function MainPage () {
       <h1>Star Trek Search</h1>
         <SearchSection onSearch={handleSearch} />
         <ResultsSection search={search} />
+        <Flyout />
     </div>
   );
 }

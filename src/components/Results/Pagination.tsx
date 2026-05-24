@@ -14,7 +14,7 @@ function Pagination({
   return (
     <div className="pagination">
       <span
-        className={`material-symbols-outlined ${page === 0 ? 'pagination-disabled' : ''}`}
+        className={`material-symbols-outlined pagination-icon ${page === 0 ? 'pagination-disabled' : ''}`}
         onClick={onPrevPage}
       >
         arrow_circle_left
@@ -25,7 +25,7 @@ function Pagination({
       </div>
 
       <span
-        className={`material-symbols-outlined ${!hasNextPage ? 'pagination-disabled' : ''}`}
+        className={`material-symbols-outlined pagination-icon ${!hasNextPage ? 'pagination-disabled' : ''}`}
         onClick={onNextPage}
       >
         arrow_circle_right

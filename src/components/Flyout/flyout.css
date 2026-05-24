@@ -1,0 +1,45 @@
+.flyout-div {
+  position: sticky;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  bottom: 0;
+  border-radius: 5px;
+  box-shadow: 0 0 12px #FF9F1C73;
+  background: #ff9f1c;
+  gap: 1rem;
+  z-index: 10;
+}
+
+.selected-items-number {
+  font-family: 'Exo 2', sans-serif;
+  color: #ffffff;
+  font-size: 1rem;
+}
+
+.flyout-buttons-div {
+    display: flex;
+    gap: 1rem;
+}
+
+.flyout-button {
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  padding: 0;
+}
+
+.flyout-icons {
+  font-size: 1.5rem;
+  color: #ffffff;
+  transition: transform 0.3s ease, color 0.3s ease;
+  cursor: pointer;
+}
+
+.flyout-button:hover .flyout-icons {
+  color: #0b0f1a;
+  transform: scale(1.1);
+}

@@ -1,6 +1,16 @@
 import { render, screen } from '@testing-library/react';
 import { test, expect } from 'vitest';
 import CardList from './CardList';
+import { Provider } from 'react-redux';
+import { store } from '../../store/store';
+
+const renderWithProvider = (ui: React.ReactNode) => {
+  return render(
+    <Provider store={store}>
+      {ui}
+    </Provider>
+  );
+};
 
 test('renders list of items', () => {
   const items = [
@@ -12,7 +22,7 @@ test('renders list of items', () => {
     },
   ];
 
-  render(<CardList items={items} />);
+  renderWithProvider(<CardList items={items} />);
 
   expect(screen.getByText(/Spock/i)).toBeInTheDocument();
 
@@ -24,7 +34,11 @@ test('renders list of items', () => {
 });
 
 test('renders empty list when no items found', () => {
-  render(<CardList items={[]} />);
+  render(
+    <Provider store={store}>
+      <CardList items={[]} />
+    </Provider>
+  );
 
   const items = document.querySelectorAll('.result-item');
 

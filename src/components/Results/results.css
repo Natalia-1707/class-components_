@@ -13,8 +13,11 @@
 h2 {
   width: 90%;
   height: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   font-family: 'Exo 2', sans-serif;
-  color: #ffffff;
+  color: var(--text-color);
   font-size: 1.5rem;
 }
 
@@ -54,7 +57,7 @@ h2 {
   width: 100%;
   position: relative;
   min-height: 70px;
-  color: #ffffff;
+  color: var(--text-color);
 }
 
 .result-item::after {
@@ -116,12 +119,12 @@ h2 {
   height: auto;
   padding: 0.2rem;
   font-family: 'Exo 2', sans-serif;
-  color: #ffffff;
+  color: var(--text-color);
   font-size: 1rem;
 }
 
 .pagination-icon {
-  color: #ffffff;
+  color: var(--text-color);
   transition: all 0.5s;
   cursor: pointer;
 }
@@ -145,16 +148,16 @@ h2 {
   height: auto;
   padding: 2rem 0;
   font-family: 'Exo 2', sans-serif;
-  color: #ffffff;
+  color: var(--text-color);
   font-size: 1.3rem;
 
   background: linear-gradient(
     90deg,
-    #ffffff 0%,
-    #ffffff 40%,
-    #ff9f1c 50%,
-    #ffffff 60%,
-    #ffffff 100%
+    var(--loading-start) 0%,
+    var(--loading-start) 40%,
+    var(--loading-middle) 50%,
+    var(--loading-start) 60%,
+    var(--loading-start) 100%
   );
 
   background-size: 200% 100%;
@@ -179,7 +182,7 @@ h2 {
 .error-div {
   width: 90%;
   padding: 2rem 0;
-  color: #ffffff;
+  color: var(--text-color);
   font-family: 'Exo 2', sans-serif;
   font-size: 1.2rem;
   white-space: pre-line;

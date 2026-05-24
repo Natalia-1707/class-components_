@@ -1,14 +1,19 @@
 import { render, screen, waitFor } from '@testing-library/react';
 import { test, expect, vi, beforeEach } from 'vitest';
 import ResultsSection from './Results';
+import ErrorBoundary from '../ErrorBoundary/ErrorBoundary';
 import { fetchCharactersApi } from '../../api/characters';
 import { MemoryRouter } from 'react-router-dom';
+import { Provider } from 'react-redux';
+import { store } from '../../store/store';
 
 const renderWithRouter = (ui: React.ReactNode) => {
   return render(
-    <MemoryRouter>
-      {ui}
-    </MemoryRouter>
+    <Provider store={store}>
+      <MemoryRouter>
+        {ui}
+      </MemoryRouter>
+    </Provider>
   );
 };
 
@@ -84,16 +89,22 @@ test('calls API when search changes', async () => {
   });
 });
 
-test('crashes when error button is clicked', () => {
+test('shows error boundary when error button is clicked', async () => {
   const spy = vi.spyOn(console, 'error').mockImplementation(() => {});
 
-  renderWithRouter(<ResultsSection search="spock" />);
+  renderWithRouter(
+    <ErrorBoundary>
+      <ResultsSection search="spock" />
+    </ErrorBoundary>
+  );
 
   const btn = screen.getByText('Error');
+
   btn.click();
 
-  expect(btn).toBeInTheDocument();
+  expect(
+    await screen.findByText(/something went wrong/i)
+  ).toBeInTheDocument();
 
   spy.mockRestore();
 });
-

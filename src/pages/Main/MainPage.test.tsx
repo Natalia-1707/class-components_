@@ -2,6 +2,10 @@ import { render, screen, waitFor } from '@testing-library/react';
 import { test, expect, vi, beforeEach } from 'vitest';
 import userEvent from '@testing-library/user-event';
 import { MemoryRouter } from 'react-router-dom';
+import { Provider } from 'react-redux';
+import { store } from '../../store/store';
+import { ThemeProvider } from '../../context/ThemeContext';
+
 
 
 vi.mock('../../api/characters', () => ({
@@ -16,6 +20,20 @@ beforeEach(() => {
   localStorage.clear();
 });
 
+const renderWithProviders = (
+  ui: React.ReactNode
+) => {
+  return render(
+    <Provider store={store}>
+      <ThemeProvider>
+        <MemoryRouter>
+          {ui}
+        </MemoryRouter>
+      </ThemeProvider>
+    </Provider>
+  );
+};
+
 test('calls fetchCharactersApi after search submit', async () => {
   const user = userEvent.setup();
 
@@ -27,11 +45,7 @@ test('calls fetchCharactersApi after search submit', async () => {
     },
   ]);
 
-  render(
-    <MemoryRouter>
-      <MainPage />
-    </MemoryRouter>
-  );
+  renderWithProviders(<MainPage />);
 
   const input = screen.getByRole('textbox');
 

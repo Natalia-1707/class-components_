@@ -1,3 +1,4 @@
+
 import type { RequestParams, Character, CharactersResponse } from './types';
 
 export const fetchCharactersApi = async (

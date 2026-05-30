@@ -138,10 +138,14 @@ h2 {
   pointer-events: none;
 }
 
-.results-section button {
-  align-self: flex-end;
+.results-section-buttons {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   margin-top: 1rem;
 }
+
 
 .loading-div {
   width: 90%;
@@ -169,6 +173,19 @@ h2 {
 
   animation: shine 3s linear infinite;
 }
+
+.refreshing-div {
+  width: auto;
+  position: fixed;
+  top: 0.2rem;
+  background-color: #ff9f1c;
+  color: #fff;
+  padding: 15px 15px;
+  border-radius: 8px;
+  z-index: 9999;
+  font-size: 1.3rem;
+}
+
 
 @keyframes shine {
   0% {

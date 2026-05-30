@@ -1,16 +1,17 @@
 import './results.css';
 import CardList from './CardList';
 import { useEffect, useState } from 'react';
-import { useGetCharactersQuery } from '../../api/charactersApi';
+import { useGetCharactersQuery, charactersApi } from '../../api/charactersApi';
 import { useLocalStorage } from '../../hooks/useLocalStorage';
 import Pagination from './Pagination';
 import { useSearchParams } from 'react-router-dom';
+import { useDispatch } from 'react-redux'
 
 function ResultsSection ({ search }: { search: string }) {
   
   const [shouldCrash, setShouldCrash] = useState(false);
-  
   const [searchParams, setSearchParams] = useSearchParams();
+  const [isManualRefresh, setIsManualRefresh] = useState(false);
 
   const pageFromUrl = Number(searchParams.get('page') || 1);
   const page = pageFromUrl - 1;
@@ -46,6 +47,17 @@ function ResultsSection ({ search }: { search: string }) {
     throw new Error('Test crash');
   }
 
+  const dispatch = useDispatch();
+  const handleRefresh = () => {
+    setIsManualRefresh(true);
+
+    dispatch(charactersApi.util.invalidateTags(['Characters']));
+
+    setTimeout(() => {
+      setIsManualRefresh(false);
+    }, 500);
+  };
+
     return (
       <section className="results-section">
         <h2>Results</h2>
@@ -54,16 +66,21 @@ function ResultsSection ({ search }: { search: string }) {
             <div>Item Name</div>
             <div>Item Description</div>
           </div>
-          { isLoading ? (
+          {isLoading ? (
             <div className="loading-div">Loading...</div>
           ) : error ? (
             <div className="error-div">
               Something went wrong 😢
-              <br />
-              Please try again later.
             </div>
           ) : (
-            <CardList items={paginatedItems} />
+            <>
+            {isManualRefresh && (
+              <div className="refreshing-div">
+                Refreshing...
+              </div>
+            )}
+              <CardList items={paginatedItems} />
+            </>
           )}
         </div>
         {items.length > 0 && (
@@ -78,13 +95,20 @@ function ResultsSection ({ search }: { search: string }) {
             }}
           />
         )}
-        <button
-          onClick={() => {
-            setShouldCrash(true);
-          }}
-        >
-          Error
-        </button>
+        <div className='results-section-buttons'>
+          <button 
+           onClick={() => handleRefresh()}
+          >
+            Refresh
+          </button>
+          <button
+            onClick={() => {
+              setShouldCrash(true);
+            }}
+          >
+            Error
+          </button>
+        </div>
       </section>
   )
 }

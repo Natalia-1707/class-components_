@@ -1,33 +1,62 @@
 import { describe, test, expect, vi, beforeEach } from 'vitest';
-import { fetchCharactersApi } from './characters';
+import { configureStore } from '@reduxjs/toolkit';
+import { charactersApi } from './characters';
 
 globalThis.fetch = vi.fn();
 
-describe('fetchCharactersApi', () => {
+describe('charactersApi', () => {
   beforeEach(() => {
     vi.clearAllMocks();
   });
 
+  const createStore = () =>
+    configureStore({
+      reducer: {
+        [charactersApi.reducerPath]:
+          charactersApi.reducer,
+      },
+      middleware: (
+        getDefaultMiddleware,
+      ) =>
+        getDefaultMiddleware().concat(
+          charactersApi.middleware,
+        ),
+    });
+
   test('fetches characters data', async () => {
-    vi.mocked(fetch).mockResolvedValue({
-      ok: true,
-      json: async () => ({
-        characters: [
-          {
-            uid: '1',
-            name: 'Spock',
-            gender: 'male',
-            yearOfBirth: 2230,
-            yearOfDeath: 2285,
-            placeOfBirth: 'Vulcan',
+    vi.mocked(fetch).mockResolvedValue(
+      new Response(
+        JSON.stringify({
+          characters: [
+            {
+              uid: '1',
+              name: 'Spock',
+              gender: 'male',
+              yearOfBirth: 2230,
+              yearOfDeath: 2285,
+              placeOfBirth: 'Vulcan',
+            },
+          ],
+        }),
+        {
+          status: 200,
+          headers: {
+            'Content-Type':
+              'application/json',
           },
-        ],
-      }),
-    } as Response);
+        },
+      ),
+    );
 
-    const result = await fetchCharactersApi('spock');
+    const store = createStore();
 
-    expect(result).toEqual([
+    const result = await store.dispatch(
+      charactersApi.endpoints.getCharacters.initiate(
+        'spock',
+      ),
+    );
+
+    expect(result.data).toEqual([
       {
         id: '1',
         name: 'Spock',
@@ -38,31 +67,69 @@ describe('fetchCharactersApi', () => {
   });
 
   test('trims search name', async () => {
-    vi.mocked(fetch).mockResolvedValue({
-      ok: true,
-      json: async () => ({
-        characters: [],
-      }),
-    } as Response);
-
-    await fetchCharactersApi('  spock  ');
-
-    expect(fetch).toHaveBeenCalledWith(
-      expect.any(String),
-      expect.objectContaining({
-        body: expect.any(URLSearchParams),
-      }),
+    vi.mocked(fetch).mockResolvedValue(
+      new Response(
+        JSON.stringify({
+          characters: [],
+        }),
+        {
+          status: 200,
+        },
+      ),
     );
+
+    const store = createStore();
+
+    await store.dispatch(
+      charactersApi.endpoints.getCharacters.initiate(
+        '  spock  ',
+      ),
+    );
+
+    expect(fetch).toHaveBeenCalled();
+
+    const fetchCall =
+      vi.mocked(fetch).mock.calls[0];
+
+    const request =
+      fetchCall[0] as Request;
+
+    const bodyText =
+      await request.text();
+
+    const params =
+      new URLSearchParams(bodyText);
+
+    expect(
+      params.get('name'),
+    ).toBe('spock');
   });
 
-   test('returns empty array when no characters found', async () => {
-    vi.mocked(fetch).mockResolvedValue({
-      ok: true,
-      json: async () => ({}),
-    } as Response);
+  test('returns empty array when no characters found', async () => {
+      vi.mocked(
+        fetch,
+      ).mockResolvedValue(
+        new Response(
+          JSON.stringify({}),
+          {
+            status: 200,
+          },
+        ),
+      );
 
-    const result = await fetchCharactersApi('spock');
+      const store =
+        createStore();
 
-    expect(result).toEqual([]);
-  });
+      const result =
+        await store.dispatch(
+          charactersApi.endpoints.getCharacters.initiate(
+            'spock',
+          ),
+        );
+
+      expect(
+        result.data,
+      ).toEqual([]);
+    },
+  );
 });

@@ -1,6 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit';
 import selectedReducer from './selectedSlice';
-import { charactersApi } from '../api/charactersApi';
+import { charactersApi } from '../api/characters';
 
 export const store = configureStore({
   reducer: {

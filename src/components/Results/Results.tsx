@@ -1,7 +1,7 @@
 import './results.css';
 import CardList from './CardList';
 import { useEffect, useState } from 'react';
-import { useGetCharactersQuery, charactersApi } from '../../api/charactersApi';
+import { useGetCharactersQuery, charactersApi } from '../../api/characters';
 import { useLocalStorage } from '../../hooks/useLocalStorage';
 import Pagination from './Pagination';
 import { useSearchParams } from 'react-router-dom';

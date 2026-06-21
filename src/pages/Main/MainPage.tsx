@@ -1,10 +1,12 @@
+'use client';
 import { useState } from 'react';
 import './mainpage.css';
 import SearchSection from '../../components/Search/Search';
 import ResultsSection from '../../components/Results/Results';
-import { Link } from 'react-router-dom';
+import { Link } from '../../i18n/navigation';
 import Flyout from '../../components/Flyout/Flyout';
 import { useTheme } from '../../context/ThemeContext';
+import LangSwitcher from '../../components/LangSwitcher';
 
 function MainPage () {
   const [search, setSearch] = useState('');
@@ -18,7 +20,9 @@ function MainPage () {
   return (
     <div className="app-wrapper">
       <div className='app-nav'>
-          <Link to="/about" className='nav-about'>About</Link>
+          <Link href="/about" className="nav-about">
+            About
+          </Link>
           <button
             className="theme-buttons"
             onClick={() =>
@@ -36,6 +40,7 @@ function MainPage () {
                 : 'dark_mode'}
             </span>
           </button>
+          <LangSwitcher />
       </div>
       <h1>Star Trek Search</h1>
         <SearchSection onSearch={handleSearch} />

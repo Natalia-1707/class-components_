@@ -1,3 +1,5 @@
+"use client"
+
 type PaginationProps = {
   page: number;
   hasNextPage: boolean;

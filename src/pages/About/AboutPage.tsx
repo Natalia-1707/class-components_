@@ -1,5 +1,5 @@
 import './aboutpage.css';
-import { Link } from 'react-router-dom';
+import { Link } from '../../i18n/navigation';
 
 function AboutPage () {
     return (
@@ -25,7 +25,9 @@ function AboutPage () {
                 Author Natalia-1707
               </a>
             </div>
-            <Link to="/main" className="back-button">Back</Link>
+             <Link href="/main" className="back-button">
+                Back
+             </Link>
             <div>Good luck, everyone!</div>
         </div>
     )

@@ -3,7 +3,7 @@ import { useState } from 'react';
 import './mainpage.css';
 import SearchSection from '../../components/Search/Search';
 import ResultsSection from '../../components/Results/Results';
-import Link from 'next/link';
+import { Link } from '../../i18n/navigation';
 import Flyout from '../../components/Flyout/Flyout';
 import { useTheme } from '../../context/ThemeContext';
 

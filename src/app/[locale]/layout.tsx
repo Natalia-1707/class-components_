@@ -11,29 +11,34 @@ export const metadata: Metadata = {
 };
 
 export default async function RootLayout({
-  children
+  children,
+  params
 }: {
   children: React.ReactNode;
+  params: Promise<{locale: string}>
 }) {
-  const messages = await getMessages();
+  const messages = await getMessages(); 
+  const {locale: currentLocale} = await params;
+  const locale = currentLocale === 'main' || currentLocale === 'about' ? 'en' : currentLocale;
 
-  return (
-    <html lang="en">
+    return (
+    /* prettier-ignore */
+    <html lang={locale}>
       <head>
         <link
           rel="stylesheet"
           href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
         />
-      </head>
-      <body>
-        <NextIntlClientProvider messages={messages}>
-          <ReduxProvider>
-            <ThemeProvider>
-              <ErrorBoundary>{children}</ErrorBoundary>
-            </ThemeProvider>
-          </ReduxProvider>
-        </NextIntlClientProvider>
-      </body>
-    </html>
+        </head>
+        <body>
+          <NextIntlClientProvider messages={messages}>
+            <ReduxProvider>
+              <ThemeProvider>
+                <ErrorBoundary>{children}</ErrorBoundary>
+              </ThemeProvider>
+            </ReduxProvider>
+          </NextIntlClientProvider>
+        </body>
+      </html>
   );
 }

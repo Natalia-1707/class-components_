@@ -6,6 +6,7 @@ import ResultsSection from '../../components/Results/Results';
 import { Link } from '../../i18n/navigation';
 import Flyout from '../../components/Flyout/Flyout';
 import { useTheme } from '../../context/ThemeContext';
+import LangSwitcher from '../../components/LangSwitcher';
 
 function MainPage () {
   const [search, setSearch] = useState('');
@@ -39,6 +40,7 @@ function MainPage () {
                 : 'dark_mode'}
             </span>
           </button>
+          <LangSwitcher />
       </div>
       <h1>Star Trek Search</h1>
         <SearchSection onSearch={handleSearch} />

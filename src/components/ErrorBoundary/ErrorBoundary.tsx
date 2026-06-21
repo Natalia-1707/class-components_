@@ -1,3 +1,4 @@
+"use client";
 import './errorboundary.css';
 import React from 'react';
 

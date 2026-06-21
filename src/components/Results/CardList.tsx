@@ -1,3 +1,4 @@
+"use client";
 import type { Item } from '../../api/types';
 import { useDispatch, useSelector } from 'react-redux';
 import type { RootState } from '../../store/store';

@@ -1,8 +1,9 @@
+'use client';
 import { useState } from 'react';
 import './mainpage.css';
 import SearchSection from '../../components/Search/Search';
 import ResultsSection from '../../components/Results/Results';
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
 import Flyout from '../../components/Flyout/Flyout';
 import { useTheme } from '../../context/ThemeContext';
 
@@ -18,7 +19,9 @@ function MainPage () {
   return (
     <div className="app-wrapper">
       <div className='app-nav'>
-          <Link to="/about" className='nav-about'>About</Link>
+          <Link href="/about" className="nav-about">
+            About
+          </Link>
           <button
             className="theme-buttons"
             onClick={() =>

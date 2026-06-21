@@ -1,3 +1,4 @@
+'use client';
 import './search.css';
 import type { Props } from '../../api/types';
 import { useLocalStorage } from '../../hooks/useLocalStorage';

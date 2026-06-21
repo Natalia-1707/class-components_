@@ -1,16 +1,20 @@
+'use client';
 import './results.css';
 import CardList from './CardList';
 import { useEffect, useState } from 'react';
 import { useGetCharactersQuery, charactersApi } from '../../api/characters';
 import { useLocalStorage } from '../../hooks/useLocalStorage';
 import Pagination from './Pagination';
-import { useSearchParams } from 'react-router-dom';
+import { useSearchParams, useRouter } from 'next/navigation';
 import { useDispatch } from 'react-redux'
 
 function ResultsSection ({ search }: { search: string }) {
+
+  const router = useRouter();
+  const searchParams = useSearchParams();
   
   const [shouldCrash, setShouldCrash] = useState(false);
-  const [searchParams, setSearchParams] = useSearchParams();
+  /* const [searchParams, setSearchParams] = useSearchParams(); */
   const [isManualRefresh, setIsManualRefresh] = useState(false);
 
   const pageFromUrl = Number(searchParams.get('page') || 1);
@@ -21,6 +25,7 @@ function ResultsSection ({ search }: { search: string }) {
   const [savedSearch] = useLocalStorage('search');
 
   const currentSearch = search || savedSearch || '';
+
 
   const {
     data: items = [],
@@ -35,15 +40,12 @@ function ResultsSection ({ search }: { search: string }) {
 
   const hasNextPage =  (page + 1) * ITEMS_PER_PAGE < items.length;
 
-  useEffect(() => {
-    setSearchParams(
-      { page: '1' },
-      { replace: true },
-    );
-  }, [search]);
+   useEffect(() => {
+    router.replace('?page=1');
+  }, [search, router]);
   
 
-  if (shouldCrash) {
+   if (shouldCrash) {
     throw new Error('Test crash');
   }
 
@@ -88,10 +90,10 @@ function ResultsSection ({ search }: { search: string }) {
             page={page}
             hasNextPage={hasNextPage}
             onPrevPage={() => {
-              setSearchParams({ page: String(pageFromUrl - 1) });
+              router.push(`?page=${pageFromUrl - 1}`);
             }}
             onNextPage={() => {
-               setSearchParams({ page: String(pageFromUrl + 1) });
+              router.push(`?page=${pageFromUrl + 1}`);
             }}
           />
         )}

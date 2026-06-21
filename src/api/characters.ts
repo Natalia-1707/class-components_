@@ -10,7 +10,7 @@ import type {
 } from './types';
 
 const CACHE_TTL =
-  Number(import.meta.env.VITE_CACHE_TTL) || 60;
+  Number(process.env.NEXT_PUBLIC_CACHE_TTL) || 60;
 
 type FormattedCharacter = {
   id: string;
